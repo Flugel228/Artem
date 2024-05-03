@@ -17,8 +17,5 @@
 <div id="show__popup"></div>
 
 <script src="{{ asset('js/script.js') }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAS2h9uH4kS9814ij58Sz9Lu5nY1PRbVaI&callback=initMap"
-        async
-        defer></script>
 </body>
 </html>
