@@ -69,7 +69,6 @@ function saveData(title) {
 
 
 function showData(title) {
-    console.log(title)
     fetch(`http://localhost:8876/api/users/show`, {
         method: 'POST',
         headers: {
@@ -80,7 +79,6 @@ function showData(title) {
         })
     })
         .then(response => {
-            console.log(response);
             return response.json()
         })
         .then(data => {
@@ -93,6 +91,11 @@ function showData(title) {
                              <td>${user.phone_number}</td>
                              <td>${user.email}</td>
                              <td>${user.password}</td>
+                             <td class="text-center">
+                                <span class="cursor-pointer"
+                                      onclick="deleteUser('${user.id}', '${title}')"
+                                >X</span>
+                             </td>
                          </tr>`;
             }
             popupElement.style.display = 'block';
@@ -109,17 +112,53 @@ function showData(title) {
                     <th>Номер телефона</th>
                     <th>Логин</th>
                     <th>Пароль</th>
+                    <th>Взаимодействие</th>
                 </tr>
             ${list}
             </table>
 `
         })
-        .catch(error => console.error('Error loading data:', error));
+        .catch(() => {
+            const popupElement = document.getElementById('show__popup');
+            popupElement.style.display = 'block';
+            popupElement.innerHTML = `
+            <div class="flex row justify-end">
+                <span class="cursor-pointer"
+                      onclick="closePopup()"
+                >x</span>
+            </div>
+            <h1>Остановка: ${title}</h1>
+            <table border="3px">
+                <tr>
+                    <th>ФИО</th>
+                    <th>Номер телефона</th>
+                    <th>Логин</th>
+                    <th>Пароль</th>
+                    <th>Взаимодействие</th>
+                </tr>
+            </table>`;
+        });
 }
 
 const closePopup = () => {
     const popupElement = document.getElementById('show__popup');
     popupElement.style.display = 'none';
+}
+
+const deleteUser = (id, title) => {
+    fetch(`http://localhost:8876/api/users/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            return response.json()
+        })
+        .then(() => {
+            showData(title);
+        })
+        .catch(error => console.error('Error loading data:', error));
 }
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Actions\API\DeleteUserAction;
 use App\Contracts\Actions\ShowUserActionContract;
 use App\Contracts\Actions\StoreUserActionContract;
 use App\Http\Controllers\Controller;
@@ -24,5 +25,11 @@ class UserController extends Controller
         $action = $action($data);
         return response()
             ->json($action['response'], $action['status']);
+    }
+
+    public function destroy(int $id, DeleteUserAction $action): \Illuminate\Http\JsonResponse
+    {
+        return response()
+            ->json($action($id));
     }
 }

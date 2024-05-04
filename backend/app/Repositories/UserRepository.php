@@ -24,6 +24,7 @@ class UserRepository extends CoreRepository implements UserRepositoryContract
     {
         return  $this->startConditions()
             ->select([
+                'id',
                 'full_name',
                 'phone_number',
                 'email',
@@ -31,5 +32,12 @@ class UserRepository extends CoreRepository implements UserRepositoryContract
             ])
             ->where('title', '=', $title)
             ->get();
+    }
+
+    public function delete(int $id): ?bool
+    {
+        return $this->startConditions()
+            ->find($id)
+            ?->delete();
     }
 }

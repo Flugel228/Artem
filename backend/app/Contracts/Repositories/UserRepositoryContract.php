@@ -18,4 +18,10 @@ interface UserRepositoryContract
      * @return Collection
      */
     public function findByTitle(string $title): Collection;
+
+    /**
+     * @param int $id
+     * @return bool|null
+     */
+    public function delete(int $id): ?bool;
 }
